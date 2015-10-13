@@ -1,8 +1,10 @@
 package com.webservice.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Properties;
 
@@ -29,6 +31,30 @@ public class Utility {
 	public  String getPath(){
 		loadProp();
 		return prop.getProperty("path");
+	}
+	
+	public Boolean saveFile(InputStream inputstream,
+			String pathToSaveAt) {
+		Boolean res = Boolean.FALSE;
+		try {
+			OutputStream outpuStream = new FileOutputStream(new File(
+					pathToSaveAt));
+			int read = 0;
+			byte[] bytes = new byte[1024];
+
+			outpuStream = new FileOutputStream(new File(pathToSaveAt));
+			while ((read = inputstream.read(bytes)) != -1) {
+				outpuStream.write(bytes, 0, read);
+			}
+			outpuStream.flush();
+			outpuStream.close();
+			res = Boolean.TRUE;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 }

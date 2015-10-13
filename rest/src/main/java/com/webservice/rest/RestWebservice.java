@@ -1,15 +1,22 @@
 package com.webservice.rest;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataBodyPart;
+import com.sun.jersey.multipart.FormDataMultiPart;
+import com.sun.jersey.multipart.FormDataParam;
 import com.webservice.util.Utility;
 import com.webservice.wrapper.PersonClassWrapper;
 import com.webservice.wrapper.SampleData;
@@ -79,6 +86,46 @@ public class RestWebservice {
 		return response;
 		
 	}
+	/**
+	 * Webservice to receive a file/upload a file
+	 * @param fileInputStream
+	 * @param contentDispositionHeader
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)	
+	public String uploadFile(@FormDataParam("file") InputStream fileInputStream,
+			@FormDataParam("file") FormDataContentDisposition contentDispositionHeader){
+			String response=null;
+			Utility u = new Utility();
+			boolean val=u.saveFile(fileInputStream, u.fileToTransfer());
+			if(val){
+				response="SUCCESS";
+			}else{
+				response="Failure";
+			}
+			return response;
+	}
 	
+	/**
+	 * webservice to transfer object and file together
+	 * @param formDataMultiPart
+	 * @return
+	 */
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String receiveObjectAndFile(FormDataMultiPart formDataMultiPart){
+		String response=null;
+		Utility u = new Utility();
+		//get the object
+		PersonClassWrapper personCLassWrapper =formDataMultiPart.getField("PersonClassWrapper").getEntityAs(PersonClassWrapper.class);
+		//get the file
+		FormDataBodyPart fdp = formDataMultiPart.getField("file");
+		String fileName = fdp.getContentDisposition().getFileName();
+		u.saveFile(fdp.getValueAs(InputStream.class), u.getPath()+fileName);
+		return response;
+	}
 
 }
