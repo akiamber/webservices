@@ -4,8 +4,8 @@
 
 <web-app>
   <display-name>REST WebService</display-name>
- <!--  <servlet>
-    <servlet-name>rest</servlet-name>
+  <servlet>
+    <servlet-name>RestWebservice</servlet-name>
     	<servlet-class>
                      com.sun.jersey.spi.container.servlet.ServletContainer
     	</servlet-class>
@@ -23,7 +23,7 @@
     	</init-param>
   </servlet>   
   <servlet-mapping>
-    <servlet-name>rest</servlet-name>
+    <servlet-name>RestWebservice</servlet-name>
     <url-pattern>/*</url-pattern>
-  </servlet-mapping> -->
+  </servlet-mapping> 
 </web-app>

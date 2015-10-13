@@ -8,7 +8,7 @@ import com.webservice.entity.Student;
 
 public class SampleData {
 
-	public static List<Person> setPersonSampleData(){
+	private static List<Person> setPersonSampleData(){
 		List<Person> persons =new ArrayList<Person>();
 		for(int i=0;i<3;i++){
 			Person p= new Person();
@@ -24,7 +24,7 @@ public class SampleData {
 		
 	}
 	
-	public static List<Student> setStudentSampleData(){
+	private static List<Student> setStudentSampleData(){
 		List<Student> students =new ArrayList<Student>();
 		for(int i=0;i<3;i++){
 			Student s= new Student();
@@ -40,5 +40,19 @@ public class SampleData {
 				
 		return students;
 		
+	}
+	
+	public static StudentClassWrapper sampleStudentsData(){
+		StudentClassWrapper sclswrapper = new StudentClassWrapper();
+		sclswrapper.setFlag(1);//transfering primitive data type
+		sclswrapper.setStudent(setStudentSampleData());
+		return sclswrapper;
+	}
+	
+	public static PersonClassWrapper samplePersonsData(){
+		PersonClassWrapper pclswrapper = new PersonClassWrapper();
+		pclswrapper.setFlag(1);//transfering primitive data type
+		pclswrapper.setPerson(setPersonSampleData());
+		return pclswrapper;
 	}
 }
