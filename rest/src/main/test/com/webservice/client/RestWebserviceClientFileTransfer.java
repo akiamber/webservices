@@ -1,6 +1,7 @@
 package com.webservice.client;
 
 import java.io.File;
+import java.io.InputStream;
 
 import javax.ws.rs.core.MediaType;
 
@@ -22,7 +23,7 @@ public class RestWebserviceClientFileTransfer {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//comment either of one when using thru this file
-		System.out.println("File Transfer :  "+FileTransfer());
+		//System.out.println("File Transfer :  "+FileTransfer());
 		System.out.println("File Transfer using pathparam :  "+FileTransferByPathParam());
 		
 
@@ -55,13 +56,21 @@ public class RestWebserviceClientFileTransfer {
 	 * @return String
 	 */
 	static String FileTransferByPathParam(){
+		String response="Failure";
 		ClientConfig cc = new DefaultClientConfig();
 		cc.getClasses().add(MultiPartWriter.class);
 		Client client = Client.create(cc);
 		//configure webresource
 		WebResource webResource = client.resource(URL).path(val1).path(val2).path(fileName);
-		ClientResponse clResponse = webResource.accept(MediaType.APPLICATION_JSON).get(ClientResponse.class);
-		return clResponse.getEntity(String.class);
+		//InputStream in = webResource.accept(MediaType.APPLICATION_OCTET_STREAM).get(InputStream.class);
+		ClientResponse clresponse = webResource.accept(MediaType.APPLICATION_OCTET_STREAM).get(ClientResponse.class);
+		//InputStream in =clresponse.getEntity(InputStream.class);
+		InputStream in =clresponse.getEntityInputStream();
+		if(in!=null){
+			response="Success";
+		}
+		//TODO:the inputstream can be saved at desired location
+		return response;
 		
 		
 	}

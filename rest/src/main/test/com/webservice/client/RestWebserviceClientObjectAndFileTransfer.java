@@ -23,9 +23,11 @@ public class RestWebserviceClientObjectAndFileTransfer {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//comment either of one when using thru this file
-		System.out.println("File Transfer with object :  "+objectAndFileTransfer());
+		//System.out.println("File Transfer with object :  "+objectAndFileTransfer());
+		getPersonClassDetails();
 
 	}
+	
 	/**
 	 * Client to post/transfer object and a file together by webservice
 	 * @return String
