@@ -93,6 +93,7 @@ public class RestWebservice {
 	 * @return
 	 */
 	@POST
+	@Path("/filetransfer")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)	
 	public String uploadFile(@FormDataParam("file") InputStream fileInputStream,
@@ -114,17 +115,23 @@ public class RestWebservice {
 	 * @return
 	 */
 	@POST
+	@Path("/objectandfiletransfer")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String receiveObjectAndFile(FormDataMultiPart formDataMultiPart){
 		String response=null;
 		Utility u = new Utility();
 		//get the object
-		PersonClassWrapper personCLassWrapper =formDataMultiPart.getField("PersonClassWrapper").getEntityAs(PersonClassWrapper.class);
+		PersonClassWrapper personClassWrapper =formDataMultiPart.getField("PersonClassWrapper").getEntityAs(PersonClassWrapper.class);
 		//get the file
 		FormDataBodyPart fdp = formDataMultiPart.getField("file");
 		String fileName = fdp.getContentDisposition().getFileName();
-		u.saveFile(fdp.getValueAs(InputStream.class), u.getPath()+fileName);
+		boolean val =u.saveFile(fdp.getValueAs(InputStream.class), u.getPath()+fileName);
+		if(val){
+			response="SUCCESS";
+		}else{
+			response="Failure";
+		}
 		return response;
 	}
 
